@@ -4,9 +4,14 @@ import 'package:intl/intl.dart';
 import 'package:lista_tarefas/models/todo.dart';
 
 class TodoListItem extends StatelessWidget {
-  const TodoListItem({Key? key, required this.todo}) : super(key: key);
+  const TodoListItem({
+    Key? key,
+    required this.todo,
+    required this.onDelete,
+  }) : super(key: key);
 
   final Todo todo;
+  final Function(Todo) onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +25,7 @@ class TodoListItem extends StatelessWidget {
           ),
           padding: const EdgeInsets.all(16),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
                 DateFormat('dd/MM/yyyy - HH:mm').format(todo.dateTime),
@@ -40,12 +45,15 @@ class TodoListItem extends StatelessWidget {
         ),
       ),
       actionExtentRatio: 0.25,
-      actionPane: const SlidableBehindActionPane(),
+      actionPane: const SlidableStrechActionPane(),
       secondaryActions: [
         IconSlideAction(
           color: Colors.red,
           icon: Icons.delete,
-          onTap: () {},
+          caption: 'Deletar',
+          onTap: () {
+            onDelete(todo);
+          },
         )
       ],
     );
